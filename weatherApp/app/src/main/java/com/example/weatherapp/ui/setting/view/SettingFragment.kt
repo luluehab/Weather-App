@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSavedBinding
 import com.example.weatherapp.databinding.FragmentSettingBinding
@@ -50,6 +51,9 @@ class SettingFragment : Fragment() {
     private lateinit var notificationSetting : String
     private lateinit var locationSetting : String
     private var previousLanguageSetting: String = ENGLISH_SHARED // Default to English or get initial value from SharedPreferences
+    private var locationCallback: SplashActivity.LocationFromGPS? = null
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -140,11 +144,22 @@ class SettingFragment : Fragment() {
     private fun onLocationSelection() {
         binding.radioGPS.setOnClickListener {
             settingViewModel.setLocationSetting(GPS)
-            // get Location
+            val intent = Intent(requireActivity(), SplashActivity::class.java)
+            startActivity(intent)
+            //locationCallback?.getlocationFromGPS()
         }
         binding.radioMap.setOnClickListener {
             settingViewModel.setLocationSetting(MAP)
             // go to map
+            // Create a bundle to pass data
+            val bundle = Bundle().apply {
+                putString("location", "Setting") // Change "yourLocationData" to your actual data
+            }
+
+            // Navigate to MapSearchFragment with the bundle
+            findNavController().navigate(R.id.action_savedFragment_to_mapSearchFragment, bundle)
+            //findNavController().navigate(R.id.action_savedFragment_to_mapSearchFragment)
+            //binding.mapfragmentContainerView.visibility = View.VISIBLE
         }
     }
 
@@ -208,6 +223,11 @@ class SettingFragment : Fragment() {
         requireActivity().resources.updateConfiguration(config, requireActivity().resources.displayMetrics)
         // Restart the activity to apply the language change
         requireActivity().recreate()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        locationCallback = null
     }
 
 }

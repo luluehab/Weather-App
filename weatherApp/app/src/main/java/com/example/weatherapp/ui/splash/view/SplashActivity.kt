@@ -41,7 +41,12 @@ import com.google.android.gms.location.Priority
 import java.io.IOException
 import java.util.Locale
 
-class SplashActivity : AppCompatActivity() {
+
+
+class SplashActivity : AppCompatActivity(){
+    interface LocationFromGPS {
+        fun getlocationFromGPS()
+    }
     private val TAG: String = "track"
     private lateinit var binding: ActivitySplashBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -53,6 +58,10 @@ class SplashActivity : AppCompatActivity() {
   //  private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private val REQUEST_LOCATION_CODE: Int = 100
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
+
+
+    private lateinit var locationCallback: LocationFromGPS
+
     override fun onStart() {
         super.onStart()
         if(checkPermission()){
@@ -84,10 +93,18 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        // Set the location callback to this instance of SplashActivity
+        locationCallback = object : LocationFromGPS {
+            override fun getlocationFromGPS() {
+                Log.i(TAG, "getlocationFromGPS: ")
+                getFreshLocation()
+            }
+        }
+        getFreshLocation()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
     }
+
 
     fun checkPermission(): Boolean{
         return  checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
@@ -178,14 +195,8 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish() // Finish current activity if needed
 
-
-            //streetAddress = address.getAddressLine(0)
-
-                // Display the street address
-                //txtAddress.text = streetAddress
-                //Log.i(TAG, "getAddressFromLocation: $streetAddress")
             } else {
-                //txtAddress.text = "Address not found!"
+
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -203,193 +214,4 @@ class SplashActivity : AppCompatActivity() {
     }
 
 }
- /*   private lateinit var binding: ActivitySplashBinding
-    //private val locationRepository = LocationRepository(applicationContext)
-    private lateinit var locationRepository: LocationRepository
-    private val viewModel: SharedViewModel by viewModels{
-        SharedViewModelFactory(locationRepository)
-    }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_splash)
-        binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        // Initialize LocationRepository here after super.onCreate
-        locationRepository = LocationRepository(applicationContext)
-        //val animationView: LottieAnimationView = findViewById(R.id.lottieAnimationView)
-        setupBackgroundAnimation()
-        // Observe the location LiveData
-        viewModel.locationLiveData.observe(this, Observer { location ->
-            val latitude = location.latitude
-            val longitude = location.longitude
-            // Navigate to the next activity with location data
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("latitude", latitude)
-            intent.putExtra("longitude", longitude)
-            startActivity(intent)
-            finish()
-        })
 
-        // Observe permission denied LiveData
-        viewModel.permissionDeniedLiveData.observe(this, Observer { denied ->
-            if (denied == true) {
-                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
-                // Handle permission denial (e.g., navigate to an error activity)
-            }
-        })
-
-        // Observe location fetch failed LiveData
-        viewModel.locationFetchFailedLiveData.observe(this, Observer { failed ->
-            if (failed == true) {
-                Toast.makeText(this, "Unable to fetch location", Toast.LENGTH_SHORT).show()
-                // Handle location fetch failure (e.g., navigate to an error activity)
-            }
-        })
-
-        // Start fetching location
-        viewModel.fetchLocation()
-    }
-    private fun setupBackgroundAnimation() {
-        lifecycleScope.launch {
-            binding.root.setBackgroundResource(R.drawable.bluebackground)
-            delay(3300)
-            binding.root.setBackgroundResource(R.drawable.gradient_background)
-            delay(500)
-        }
-    }
-}*/
-  /*  private var permissionDeniedCounts = 0
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-    private lateinit var viewModel: SharedViewModel
-    companion object {
-        private const val REQUEST_LOCATION_CODE = 100
-    }
-    private val TAG = "track"
-   /* private val viewModel: SharedViewModel by viewModels {
-        SharedViewModelFactory(application)
-    }*/
-    private lateinit var binding: ActivitySplashBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        viewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
-
-        //setupPermissionLauncher()
-
-        viewModel.getLocationData(this)
-        observeViewModel()
-        setupBackgroundAnimation()
-// Check if permissions are granted at startup
-        //checkLocationPermissions()
-       /* requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    viewModel.startLocationUpdates()
-                } else {
-                    permissionDeniedCounts++ // Increment denial count
-                    if (permissionDeniedCounts < 2) {
-                        showEnableLocationDialog() // Show dialog to ask user
-                    }
-                }
-            }*/
-    }
-
-    private fun setupPermissionLauncher() {
-        requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    viewModel.startLocationUpdates()
-                } else {
-                    permissionDeniedCounts++ // Increment denial count
-
-                }
-            }
-    }
-    private fun checkLocationPermissions() {
-        when {
-            checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED -> {
-                // Permission is granted
-                viewModel.startLocationUpdates()
-            }
-            else -> {
-                // Request permission
-                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }
-    }
-    // Show AlertDialog to ask if the user wants to enable location services
-    private fun showEnableLocationDialog() {
-        val dialog = AlertDialog.Builder(this)
-            .setTitle(getString(R.string.enable_location_services))
-            .setMessage(getString(R.string.location_services_are_required_to_access_the_home_screen_do_you_want_to_enable_them))
-            .setPositiveButton(getString(R.string.yes)) { _, _ -> promptEnableLocationServices() }
-            //.setNegativeButton(getString(R.string.choose_from_maps)) { _, _ -> navigateToGoogleMaps() }
-            .setCancelable(false)
-            .create()
-
-        dialog.setOnShowListener {
-            val buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            val buttonCancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            buttonOk.setTextColor(resources.getColor(R.color.lulu, null))
-            buttonCancel.setTextColor(resources.getColor(R.color.lulu, null))
-        }
-        dialog.show()
-    }
-    // Prompt user to enable location services by navigating to settings
-    private fun promptEnableLocationServices() {
-        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-    }
-
-    private fun requestLocationPermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ),
-            REQUEST_LOCATION_CODE
-        )
-    }
-
-    // Show AlertDialog to ask if the user wants to enable location services
-
-    private fun observeViewModel() {
-        viewModel.locationData.observe(this) { locationData ->
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("latitude", locationData.latitude)
-                putExtra("longitude", locationData.longitude)
-                putExtra("countryName", locationData.countryName)
-                putExtra("adminArea", locationData.adminArea)
-                putExtra("streetAddress", locationData.streetAddress)
-            }
-            startActivity(intent)
-            finish()
-        }
-
-        viewModel.error.observe(this) { errorMessage ->
-
-            Log.i(TAG, "observeViewModel: $errorMessage")
-            if (errorMessage == "Permission not granted") {
-                // Now request permissions directly
-                requestLocationPermission()
-            } else if (errorMessage == "Please enable location services") {
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-                startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            } else {
-                // Display other errors
-                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun setupBackgroundAnimation() {
-        lifecycleScope.launch {
-            binding.root.setBackgroundResource(R.drawable.bluebackground)
-            delay(3300)
-            binding.root.setBackgroundResource(R.drawable.gradient_background)
-            delay(500)
-        }
-    }
-}*/

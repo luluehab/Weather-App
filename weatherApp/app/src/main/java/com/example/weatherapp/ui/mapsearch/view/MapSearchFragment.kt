@@ -131,48 +131,6 @@ class MapSearchFragment : Fragment(){
         _binding = null
     }
 
-    /*private fun searchLocation(input: String) {
-        // Use try-catch to handle potential exceptions
-        try {
-            // Open the InputStream for the Excel file
-            requireContext().assets.open("worldcities.xlsx").use { inputStream ->
-                val workbook = XSSFWorkbook(inputStream) // For .xlsx files
-                val sheet = workbook.getSheetAt(0)
-
-                for (row in 1..sheet.lastRowNum) { // Start from 1 to skip header
-                    val city = sheet.getRow(row).getCell(0).stringCellValue
-                    val lat = sheet.getRow(row).getCell(2).numericCellValue
-                    val lng = sheet.getRow(row).getCell(3).numericCellValue
-                    val country = sheet.getRow(row).getCell(4).stringCellValue
-
-                    // Check if the input matches city or country
-                    if (city.equals(input, true) || country.equals(input, true)) {
-                        // Update the location state flow with matched data
-                      //  viewModel.updateLocationStateFlow(LocationData(city, lat, lng, country))
-                        // Do something with the found location, e.g., display a Toast
-                        Toast.makeText(requireContext(), "Found: $city, $lat, $lng, $country", Toast.LENGTH_LONG).show()
-                      // return
-                        found = true
-                        break // Exit the loop as we've found a match
-                    }
-                }
-
-                if (!found) {
-                    // Handle the case where no match was found, e.g., show a message
-                    Toast.makeText(requireContext(), "No matching location found.", Toast.LENGTH_SHORT).show()
-                }
-
-                // Don't forget to close the inputStream
-                inputStream.close()
-                // No match found
-               // viewModel.updateLocationStateFlow(null) // Adjust this according to your ViewModel's method
-            }
-        } catch (e: Exception) {
-            Log.e("MapSearchFragment", "Error reading Excel file: ${e.message}", e)
-            // Handle error appropriately (e.g., show a message to the user)
-        }
-    }*/
-
     private fun setupSearchView() {
         val debounceTime = 300L
         var lastQuery: String? = null
