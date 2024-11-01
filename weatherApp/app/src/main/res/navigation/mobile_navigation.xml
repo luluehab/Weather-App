@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.weatherapp.ui.home.view.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_alert"
+        android:name="com.example.weatherapp.ui.alert.view.AlertFragment"
+        android:label="@string/menu_alert"
+        tools:layout="@layout/fragment_alert" />
+
+    <fragment
+        android:id="@+id/nav_saved"
+        android:name="com.example.weatherapp.ui.save.view.SavedFragment"
+        android:label="@string/menu_saved"
+        tools:layout="@layout/fragment_saved" />
+
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.example.weatherapp.ui.setting.view.SettingFragment"
+        android:label="@string/menu_setting"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.weatherapp.ui.mapsearch.view.MapSearchFragment"
+        android:label="@string/Search"
+        tools:layout="@layout/fragment_map_search" />
+
+
+    <action
+        android:id="@+id/action_savedFragment_to_mapSearchFragment"
+        app:destination="@id/nav_search" />
+
+    <action
+        android:id="@+id/action_mainActivity_to_settingFragment"
+        app:destination="@id/nav_setting" />
+</navigation>

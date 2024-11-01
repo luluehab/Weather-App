@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">اسأل لولو</string>
+    <string name="navigation_drawer_open">افتح القائمة</string>
+    <string name="navigation_drawer_close">أغلق القائمة</string>
+    <string name="nav_header_title">أندرويد ستوديو</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">رأس التنقل</string>
+    <string name="action_settings">الإعدادات</string>
+    <string name="pressure">الضغط</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="wind">الرياح</string>
+    <string name="cloud">الغيوم</string>
+    <string name="sunrise">شروق الشمس</string>
+    <string name="sunset">غروب الشمس</string>
+    <string name="week_forecast">توقعات الأسبوع</string>
+    <string name="menu_home">الرئيسية</string>
+    <string name="menu_gallery">المعرض</string>
+    <string name="menu_saved">المحفوظات</string>
+    <string name="menu_map">الخريطة</string>
+    <string name="m_s">م/ث</string>
+    <string name="mph">ميل/س</string>
+    <string name="today">اليوم</string>
+    <string name="tomorrow">غدًا</string>
+    <string name="hpa">%1$s هكتوباسكال</string>
+    <string name="no_network_using_saved_data">لا يوجد اتصال. يتم استخدام البيانات المحفوظة.</string>
+    <string name="clear_sky">سماء صافية</string>
+    <string name="light_rain">مطر خفيف</string>
+    <string name="overcast_clouds">غيوم كثيفة</string>
+    <string name="moderate_rain">مطر متوسط</string>
+    <string name="light_snow">ثلج خفيف</string>
+    <string name="snow">ثلج</string>
+    <string name="broken_clouds">غيوم متفرقة</string>
+    <string name="scattered_clouds">غيوم متناثرة</string>
+    <string name="few_clouds">بعض الغيوم</string>
+    <string name="location">الموقع</string>
+    <string name="saved_locations">المواقع المحفوظة</string>
+    <string name="nothing_saved_yet">لم يتم حفظ شيء بعد</string>
+    <string name="hello_blank_fragment">مرحبًا بصفحة فارغة</string>
+    <string name="save">حفظ</string>
+    <string name="mapSearch">البحث في الخريطة</string>
+    <string name="temperature_unit">درجة الحرارة</string>
+    <string name="kelvin">كلفن</string>
+    <string name="celsius">درجة مئوية</string>
+    <string name="fahrenheit">فهرنهايت</string>
+    <string name="wind_speed_unit">سرعة الرياح</string>
+    <string name="miles_hour">ميل/ساعة</string>
+    <string name="meter_sec">متر/ثانية</string>
+    <string name="language">اللغة</string>
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="notification">الإشعارات</string>
+    <string name="on">تشغيل</string>
+    <string name="off">إيقاف</string>
+    <string name="gps">نظام تحديد المواقع</string>
+    <string name="map">الخريطة</string>
+    <string name="Setting">الإعدادات</string>
+    <string name="Search">بحث</string>
+    <string name="menu_alert">التنبيهات</string>
+    <string name="clock">الساعة</string>
+    <string name="day_details">22 سبتمبر 20</string>
+    <string name="alert_title">تنبيه</string>
+    <string name="overlay_permission_is_required_for_alert">يجب الحصول على إذن التراكب</string>
+    <string name="enable">تفعيل</string>
+    <string name="notification_permission">يتطلب إذن الإشعارات</string>
+    <string name="add_alert">إضافة تنبيه</string>
+    <string name="check">لنقم بفحص الطقس</string>
+    <string name="stop">"توقف "</string>
+    <string name="add_alarm">"أضف تنبيه "</string>
+    <string name="hour">7 صباحًا</string>
+    <string name="menu_setting">الإعدادات</string>
+    <string name="mail">marinamosaad31@gmail.com</string>
+    <string name="language_change">تغيير اللغة</string>
+    <string name="changing_the_language_will_exit_the_app_please_reopen_the_app_to_see_the_changes">تغيير اللغة سيؤدي إلى إعادة تشغيل التطبيق تلقائيًا لرؤية التغييرات.</string>
+    <string name="ok">موافق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="enable_location_services">Enable Location Services</string>
+    <string name="location_services_are_required_to_access_the_home_screen_do_you_want_to_enable_them">Location services are required to access the home screen. Do you want to enable them?</string>
+    <string name="choose_from_maps">Choose From Maps</string>
+    <string name="yes">نعم</string>
+
+    <string-array name="countries">
+        <item>أفغانستان</item>
+        <item>ألبانيا</item>
+        <item>الجزائر</item>
+        <item>أندورا</item>
+        <item>أنغولا</item>
+        <item>أنتيغوا وبربودا</item>
+        <item>الأرجنتين</item>
+        <item>أرمينيا</item>
+        <item>أستراليا</item>
+        <item>النمسا</item>
+        <item>أذربيجان</item>
+        <item>الباهاما</item>
+        <item>البحرين</item>
+        <item>بنغلاديش</item>
+        <item>بربادوس</item>
+        <item>بيلاروسيا</item>
+        <item>بلجيكا</item>
+        <item>بليز</item>
+        <item>بنين</item>
+        <item>بوتان</item>
+        <item>بوليفيا</item>
+        <item>البوسنة والهرسك</item>
+        <item>بوتسوانا</item>
+        <item>البرازيل</item>
+        <item>بروناي</item>
+        <item>بلغاريا</item>
+        <item>بوركينا فاسو</item>
+        <item>بوروندي</item>
+        <item>الرأس الأخضر</item>
+        <item>كمبوديا</item>
+        <item>الكاميرون</item>
+        <item>كندا</item>
+        <item>جمهورية أفريقيا الوسطى</item>
+        <item>تشاد</item>
+        <item>تشيلي</item>
+        <item>الصين</item>
+        <item>كولومبيا</item>
+        <item>جزر القمر</item>
+        <item>الكونغو (برازافيل)</item>
+        <item>كوستاريكا</item>
+        <item>كرواتيا</item>
+        <item>كوبا</item>
+        <item>قبرص</item>
+        <item>التشيك</item>
+        <item>جمهورية الكونغو الديمقراطية</item>
+        <item>الدانمارك</item>
+        <item>جيبوتي</item>
+        <item>دومينيكا</item>
+        <item>جمهورية الدومينيكان</item>
+        <item>الإكوادور</item>
+        <item>مصر</item>
+        <item>السلفادور</item>
+        <item>غينيا الاستوائية</item>
+        <item>إريتريا</item>
+        <item>إستونيا</item>
+        <item>إسواتيني</item>
+        <item>إثيوبيا</item>
+        <item>فيجي</item>
+        <item>فنلندا</item>
+        <item>فرنسا</item>
+        <item>الغابون</item>
+        <item>غامبيا</item>
+        <item>جورجيا</item>
+        <item>ألمانيا</item>
+        <item>غانا</item>
+        <item>اليونان</item>
+        <item>غرينادا</item>
+        <item>غواتيمالا</item>
+        <item>غينيا</item>
+        <item>غينيا بيساو</item>
+        <item>غيانا</item>
+        <item>هايتي</item>
+        <item>هندوراس</item>
+        <item>هنغاريا</item>
+        <item>أيسلندا</item>
+        <item>الهند</item>
+        <item>إندونيسيا</item>
+        <item>إيران</item>
+        <item>العراق</item>
+        <item>أيرلندا</item>
+        <item>إسرائيل</item>
+        <item>إيطاليا</item>
+        <item>جامايكا</item>
+        <item>اليابان</item>
+        <item>الأردن</item>
+        <item>كازاخستان</item>
+        <item>كينيا</item>
+        <item>كيريباتي</item>
+        <item>الكويت</item>
+        <item>قيرغيزستان</item>
+        <item>لاوس</item>
+        <item>لاتفيا</item>
+        <item>لبنان</item>
+        <item>ليسوتو</item>
+        <item>ليبيريا</item>
+        <item>ليبيا</item>
+        <item>ليختنشتاين</item>
+        <item>ليتوانيا</item>
+        <item>لوكسمبورغ</item>
+        <item>مدغشقر</item>
+        <item>مالاوي</item>
+        <item>ماليزيا</item>
+        <item>جزر المالديف</item>
+        <item>مالي</item>
+        <item>مالطا</item>
+        <item>جزر مارشال</item>
+        <item>موريتانيا</item>
+        <item>موريشيوس</item>
+        <item>المكسيك</item>
+        <item>ميكرونيزيا</item>
+        <item>مولدوفا</item>
+        <item>موناكو</item>
+        <item>منغوليا</item>
+        <item>الجبل الأسود</item>
+        <item>المغرب</item>
+        <item>موزمبيق</item>
+        <item>ميانمار (بورما)</item>
+        <item>ناميبيا</item>
+        <item>ناورو</item>
+        <item>نيبال</item>
+        <item>هولندا</item>
+        <item>نيوزيلندا</item>
+        <item>نيكاراغوا</item>
+        <item>النيجر</item>
+        <item>نيجيريا</item>
+        <item>كوريا الشمالية</item>
+        <item>مقدونيا الشمالية</item>
+        <item>النرويج</item>
+        <item>عمان</item>
+        <item>باكستان</item>
+        <item>بالاو</item>
+        <item>بنما</item>
+        <item>بابوا غينيا الجديدة</item>
+        <item>باراغواي</item>
+        <item>بيرو</item>
+        <item>الفلبين</item>
+        <item>بولندا</item>
+        <item>البرتغال</item>
+        <item>قطر</item>
+        <item>رومانيا</item>
+        <item>روسيا</item>
+        <item>رواندا</item>
+        <item>سانت كيتس ونيفيس</item>
+        <item>سانت لوسيا</item>
+        <item>سانت فنسنت والغرينادين</item>
+        <item>ساموا</item>
+        <item>سان مارينو</item>
+        <item>ساو تومي وبرينسيب</item>
+        <item>السعودية</item>
+        <item>السنغال</item>
+        <item>صربيا</item>
+        <item>سيشيل</item>
+        <item>سيراليون</item>
+        <item>سنغافورة</item>
+        <item>سلوفاكيا</item>
+        <item>سلوفينيا</item>
+        <item>جزر سليمان</item>
+        <item>الصومال</item>
+        <item>جنوب أفريقيا</item>
+        <item>كوريا الجنوبية</item>
+        <item>جنوب السودان</item>
+        <item>إسبانيا</item>
+        <item>سريلانكا</item>
+        <item>السودان</item>
+        <item>سورينام</item>
+        <item>السويد</item>
+        <item>سويسرا</item>
+        <item>سوريا</item>
+        <item>تايوان</item>
+        <item>طاجيكستان</item>
+        <item>تنزانيا</item>
+        <item>تايلاند</item>
+        <item>تيمور- ليشتي</item>
+        <item>توجو</item>
+        <item>تونغا</item>
+        <item>ترينيداد وتوباغو</item>
+        <item>تونس</item>
+        <item>تركيا</item>
+        <item>تركمانستان</item>
+        <item>توفالو</item>
+        <item>أوغندا</item>
+        <item>أوكرانيا</item>
+        <item>الإمارات العربية المتحدة</item>
+        <item>المملكة المتحدة</item>
+        <item>الولايات المتحدة</item>
+        <item>أوروغواي</item>
+        <item>أوزبكستان</item>
+        <item>فانواتو</item>
+        <item>فنزويلا</item>
+        <item>فيتنام</item>
+        <item>اليمن</item>
+        <item>زامبيا</item>
+        <item>زيمبابوي</item>
+    </string-array>
+</resources>
