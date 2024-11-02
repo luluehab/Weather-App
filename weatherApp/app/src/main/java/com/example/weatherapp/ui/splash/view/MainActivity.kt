@@ -46,7 +46,10 @@ import com.example.weatherapp.utils.Helpers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.provider.Settings
+import android.widget.TextView
 import androidx.fragment.app.viewModels
+import com.example.weatherapp.ui.home.viewModel.HomeViewModel
+import com.example.weatherapp.ui.home.viewModel.HomeViewModelFactory
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModel
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModelFactory
 import kotlinx.coroutines.withContext
@@ -69,11 +72,20 @@ class MainActivity : AppCompatActivity() {
     private val settingViewModel: SettingViewModel by viewModels {
         SettingViewModelFactory(this.application)
     }
+    private val weatherViewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(repository)
+    }
     private val TAG: String = "Main Activity"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        remoteSource = RemoteSource(APIClient.getApiService())
+        localSource = LocalSource(this)
+        repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
+
+
+        Log.i(TAG, "onCreate: ${findViewById<TextView>(R.id.tv_current_degree)}")
 
         // set init fot Setting
         settingViewModel.initializeDefaults()
@@ -82,10 +94,6 @@ class MainActivity : AppCompatActivity() {
             != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), 1)
         }
-        remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = LocalSource(this)
-        repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
-
 
        /* setDefaultLanguage()*/
 
@@ -172,6 +180,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        Log.i(TAG, "onCreate after : ${findViewById<TextView>(R.id.tv_current_degree).text.toString()}")
     }
 
     override fun attachBaseContext(newBase: Context?) {

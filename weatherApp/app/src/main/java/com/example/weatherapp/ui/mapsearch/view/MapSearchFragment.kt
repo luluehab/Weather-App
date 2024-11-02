@@ -12,6 +12,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.database.LocalSource
 import com.example.weatherapp.databinding.FragmentMapSearchBinding
@@ -102,25 +103,24 @@ class MapSearchFragment : Fragment(){
         }
         binding.btnSaveLocation.setOnClickListener {
             //viewModel.addCurrentLocationToFavorites()
-            Toast.makeText(requireContext(), "will add", Toast.LENGTH_SHORT).show()
-            // mapViewModel.addLocationToFavorites(currentLocation)
-            //Log.i(TAG, "onViewCreated: add to fav  ${currentLocation}" )
-            /* mapViewModel.filteredLocations.value.firstOrNull()?.let {
-                Log.i(TAG, "onViewCreated: add to fav  $it" )
-                mapViewModel.addLocationToFavorites(it)
-                Toast.makeText(requireContext(), "Location saved to favorites!", Toast.LENGTH_SHORT).show()
-            }*/
+           if(arguments?.getString("location")=="Setting")
+           {
+               val bundle = Bundle().apply {
+                   putString("adminArea", " ")
+                   putString("countryName", currentLocation.city)
+                   putDouble("latitude", currentLocation.lat)
+                   putDouble("longitude", currentLocation.lng)
+               }
+               // Navigate to HomeFragment with the bundle
+               findNavController().navigate(R.id.action_savedFragment_to_homeFragment, bundle)
 
-              lifecycleScope.launch {
-                //mapViewModel.filteredLocations.collect { locations ->
-                  //  if (locations.isNotEmpty()) {
-                    //    val location = locations.first() // Take the first result
-                        mapViewModel.addLocationToFavorites(currentLocation)
-                      //  Log.i(TAG, "btnSaveLocation:${location.lat}  ${location.lng}  ${location.city} ")
-                        Toast.makeText(requireContext(), "${currentLocation.city} saved to favorites!", Toast.LENGTH_SHORT).show()
-                   // }
-               // }
-            }
+           }else{
+               lifecycleScope.launch {
+                   mapViewModel.addLocationToFavorites(currentLocation)
+                   Toast.makeText(requireContext(), "${currentLocation.city} saved to favorites!", Toast.LENGTH_SHORT).show()
+               }
+           }
+
         }
 
     }

@@ -276,6 +276,13 @@ class HomeFragment : Fragment() {
         cloud = "${weather.clouds.all} %"
         sunrise =  formatTime(weather.sys.sunrise)
         sunset = formatTime(weather.sys.sunset)
+
+        val result = Bundle().apply {
+            putString("dataKey", "Hello from HomeFragment!")
+        }
+        parentFragmentManager.setFragmentResult("requestKey", result)
+
+        weatherViewModel.setTemp(temp)
         Log.i(TAG, "updateUi: $temp $date")
     }
 

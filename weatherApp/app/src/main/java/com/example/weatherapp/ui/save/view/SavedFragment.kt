@@ -31,6 +31,7 @@ import com.example.weatherapp.ui.save.viewmodel.SavedViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import com.example.downloadworker.Network.NetworkCheck
 import com.example.weatherapp.model.LocationData
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModel
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModelFactory
@@ -148,8 +149,24 @@ class SavedFragment : Fragment() {
     }
 
     private fun setUpAdapters() {
-        savedAdapter = SavedAdapter( lifecycleScope){cityName ->
-            Toast.makeText(requireContext(), "details of $cityName Will show", Toast.LENGTH_SHORT).show()
+        savedAdapter = SavedAdapter( lifecycleScope){location ->
+           // Toast.makeText(requireContext(), "details of $location Will show", Toast.LENGTH_SHORT).show()
+            if(NetworkCheck.isNetworkAvailable(requireContext())) {
+                val bundle = Bundle().apply {
+                    putString("adminArea", " ")
+                    putString("countryName", location.city)
+                    putDouble("latitude", location.lat)
+                    putDouble("longitude", location.lng)
+                }
+                // Navigate to HomeFragment with the bundle
+                findNavController().navigate(R.id.action_savedFragment_to_homeFragment, bundle)
+            }
+            else{
+                Snackbar.make(binding.root, "No Network", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null)
+                    .setAnchorView(R.id.fab).show()
+
+            }
         }
 
         binding.apply {

@@ -153,7 +153,8 @@ class SettingFragment : Fragment() {
             // go to map
             // Create a bundle to pass data
             val bundle = Bundle().apply {
-                putString("location", "Setting") // Change "yourLocationData" to your actual data
+                putString("location", "Setting")
+
             }
 
             // Navigate to MapSearchFragment with the bundle

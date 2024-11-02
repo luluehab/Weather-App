@@ -29,6 +29,11 @@ class HomeViewModel(private val repository: RepositoryImpl) : ViewModel() {
     val dailyForecastDataStateFlow: StateFlow<ApiState> get() = _dailyForecastDataStateFlow
 
 
+    // for share data to lulu
+    val temp: MutableLiveData<String> = MutableLiveData()
+    fun setTemp(newData: String) {
+        temp.value = newData
+    }
 
 
     fun fetchCurrentWeatherDataByCoordinates(lat: Double, lon: Double) {
