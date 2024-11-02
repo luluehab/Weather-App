@@ -23,17 +23,6 @@ interface WeatherDao {
 
 
 
-    @Query("SELECT * FROM Weather")
-    fun getAllWeatherData(): Flow<List<WeatherEntity>>
-
-    @Delete
-    suspend fun deleteWeather(weather: WeatherEntity)
-
-    @Query("SELECT * FROM Weather WHERE cityName = :cityName LIMIT 1")
-    suspend fun getWeatherByCity(cityName: String): WeatherEntity?
-
-
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAlarm(alarmItem: AlarmEntity)
 

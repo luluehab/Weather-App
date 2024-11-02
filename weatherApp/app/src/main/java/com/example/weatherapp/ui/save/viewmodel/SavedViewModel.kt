@@ -18,20 +18,18 @@ import kotlinx.coroutines.launch
 class SavedViewModel(private val repo: Repository) : ViewModel() {
 
 
-    fun insertPlaceToFav(place: LocationData) {
+     fun insertPlaceToFav(place: LocationData) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertPlaceToFav(place)
         }
     }
-    val getAllFavouritePlaces: Flow<List<LocationData>> = repo.getAllFavouritePlaces()
+     val getAllFavouritePlaces: Flow<List<LocationData>> = repo.getAllFavouritePlaces()
 
-    fun deletePlaceFromFav(place: LocationData) {
+     fun deletePlaceFromFav(place: LocationData) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deletePlaceFromFav(place)
         }
     }
 
-    suspend fun getWeatherCity(cityName: String) : WeatherEntity?{
-            return repo.getWeatherCity(cityName)
-    }
+
 }

@@ -18,19 +18,13 @@ interface Repository {
     fun fetchHourlyForecast(lat: Double, lon: Double): Flow<Hourly>
     fun fetchDailyForecast(lat: Double, lon: Double): Flow<DailyForecast>
    // fun fetchCountryData(countryName: String): Flow<CountryResponse?>
+
+
     //local database
     suspend fun insertPlaceToFav(location: LocationData)
     fun getAllFavouritePlaces(): Flow<List<LocationData>>
     suspend fun deletePlaceFromFav(location: LocationData)
-    suspend fun getWeatherCity(cityName: String): WeatherEntity?
 
-
-/*    // For Shared Data
-    fun writeStringToSetting(key: String, value: String)
-    fun readStringFromSetting(key: String): String
-    fun writeFloatToSetting(key: String, value: Float)
-    fun readFloatFromSetting(key: String): Float
-*/
 
     // For Alert
     suspend fun insertAlarm(alarmItem: AlarmEntity)

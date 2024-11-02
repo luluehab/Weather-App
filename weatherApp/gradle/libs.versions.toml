@@ -18,6 +18,10 @@ slf4jAndroid = "1.7.32"
 uiDesktop = "1.7.0"
 playServicesMaps = "19.0.0"
 roomExternalAntlr = "2.7.0-alpha10"
+junitJupiter = "5.8.1"
+junitKtx = "1.2.1"
+runner = "1.6.1"
+core = "1.46.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +42,10 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jAndroid" }
 androidx-room-external-antlr = { group = "androidx.room", name = "room-external-antlr", version.ref = "roomExternalAntlr" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+core = { group = "com.google.ar", name = "core", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

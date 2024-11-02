@@ -11,26 +11,31 @@ import com.example.iti.data.model.Weather
 import com.example.iti.data.model.WeatherEntity
 import com.example.weatherapp.database.CountryResponse
 import com.example.weatherapp.database.LocalSource
+import com.example.weatherapp.database.LocalSourceInterface
 import com.example.weatherapp.model.Coordinate
 import com.example.weatherapp.model.LocationData
 import com.example.weatherapp.network.RemoteSource
+import com.example.weatherapp.network.RemoteSourceInterface
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModel
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModelFactory
+import com.example.weatherapp.ui.setting.viewmodel.SettingViewModelInterface
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
 
 class RepositoryImpl(
-    private val remoteDataSource: RemoteSource,
-    private val localDataSource: LocalSource,
-    private val sharedSetting: SettingViewModel
+    private val remoteDataSource: RemoteSourceInterface,
+    private val localDataSource: LocalSourceInterface,
+    private val sharedSetting: SettingViewModelInterface
 ) : Repository {
 
 
     private val lang = sharedSetting.getLanguageSetting()!!
     private val TAG = "track"
 
+
+    // REMOTE
     override fun fetchCurrentWeather(lat: Double, long: Double): Flow<Weather> {
         return remoteDataSource.getWeather(lat, long , lang)
     }
@@ -44,9 +49,8 @@ class RepositoryImpl(
         return remoteDataSource.getDailyForecast(lat, lon,lang)
     }
 
-    /*override fun fetchCountryData(countryName: String): Flow<CountryResponse?> {
-        return remoteDataSource.getCountryData(countryName)
-    }*/
+
+    // LOCAL
 
     override suspend fun insertPlaceToFav(location: LocationData) {
         return localDataSource.insertLocation(location)
@@ -60,25 +64,8 @@ class RepositoryImpl(
         return localDataSource.deletePlaceFromFav(location)
     }
 
-    override suspend fun getWeatherCity(cityName: String): WeatherEntity? {
-        return localDataSource.getWeatherCity(cityName)
-    }
 
-    /*override fun writeStringToSetting(key: String, value: String) {
-        sharedSetting.writeStringToSetting(key, value)
-    }
 
-    override fun readStringFromSetting(key: String): String {
-        return sharedSetting.readStringFromSetting(key)
-    }
-
-    override fun writeFloatToSetting(key: String, value: Float) {
-        sharedSetting.writeFloatToSetting(key, value)
-    }
-
-    override fun readFloatFromSetting(key: String): Float {
-        return sharedSetting.readFloatFromSetting(key)
-    }*/
 
     override suspend fun insertAlarm(alarmItem: AlarmEntity) {
         localDataSource.insertAlarm(alarmItem)

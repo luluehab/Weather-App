@@ -26,7 +26,4 @@ interface RemoteSourceInterface {
         lang: String
     ): Flow<DailyForecast>
 
-    /*fun getCountryData(
-        countryName: String
-    ): Flow<CountryResponse?>*/
 }
