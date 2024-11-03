@@ -22,6 +22,8 @@ import com.example.iti.data.model.Weather
 import com.example.iti.data.model.WeatherEntity
 import com.example.weatherapp.R
 import com.example.weatherapp.database.LocalSource
+import com.example.weatherapp.database.WeatherDB
+import com.example.weatherapp.database.WeatherDao
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.model.Repo.RepositoryImpl
 import com.example.weatherapp.network.APIClient
@@ -55,6 +57,7 @@ class HomeFragment : Fragment() {
     private lateinit var remoteSource :RemoteSource
     private lateinit var localSource : LocalSource
     private lateinit var repository : RepositoryImpl
+    private lateinit var weatherDao: WeatherDao
     private val settingViewModel: SettingViewModel by viewModels {
         SettingViewModelFactory(requireActivity().application)
     }
@@ -91,8 +94,9 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        weatherDao =  WeatherDB.getDatabase(requireContext()).GetWeatherDao()
         remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = context?.let { LocalSource(it) }!!
+        localSource = context?.let { LocalSource(weatherDao) }!!
         repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
 
         setUpAdapters()

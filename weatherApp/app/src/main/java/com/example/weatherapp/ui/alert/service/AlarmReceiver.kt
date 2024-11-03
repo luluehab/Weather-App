@@ -27,6 +27,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.iti.data.model.AlarmEntity
 import com.example.weatherapp.R
 import com.example.weatherapp.database.LocalSource
+import com.example.weatherapp.database.WeatherDB
+import com.example.weatherapp.database.WeatherDao
 import com.example.weatherapp.model.Repo.RepositoryImpl
 import com.example.weatherapp.network.APIClient
 import com.example.weatherapp.network.RemoteSource
@@ -46,15 +48,18 @@ class AlarmReceiver: BroadcastReceiver() {
 
     private val TAG = "track"
 
+
     private lateinit var remoteSource: RemoteSource
     private lateinit var localSource: LocalSource
    private lateinit var repository: RepositoryImpl
+   private lateinit var weatherDao: WeatherDao
+   // private val weatherDao: WeatherDao = WeatherDB.getDatabase(context).GetWeatherDao()
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
         val alertAction = intent?.action
         val alert = intent?.getParcelableExtra<AlarmEntity>(Constants.ALERT_KEY)
-
+        weatherDao = context?.let { WeatherDB.getDatabase(it).GetWeatherDao() }!!
 
         when (alertAction) {
             Constants.ALERT_ACTION_NOTIFICATION -> {
@@ -95,7 +100,7 @@ class AlarmReceiver: BroadcastReceiver() {
 
             Log.i(TAG, "onReceive: delete the notification")
 
-            localSource = context?.let { LocalSource(it) }!!
+            localSource = context?.let { LocalSource(weatherDao) }!!
             CoroutineScope(Dispatchers.IO).launch {
                 localSource.deleteAlarm(it)
             }

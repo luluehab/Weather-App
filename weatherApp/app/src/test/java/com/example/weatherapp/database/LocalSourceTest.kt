@@ -7,9 +7,16 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.iti.data.model.AlarmEntity
 import com.example.weatherapp.model.LocationData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.core.IsEqual
@@ -19,41 +26,50 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.jupiter.api.Assertions.*
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
-
-@RunWith(AndroidJUnit4::class)
+@ExperimentalCoroutinesApi
+@Config(sdk = [21])
+@RunWith(RobolectricTestRunner::class)
 class LocalSourceTest{
+
+
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
+    private val testDispatcher = StandardTestDispatcher()
     private lateinit var localSource: LocalSource
-    private lateinit var weatherDao: WeatherDao
     private lateinit var db: WeatherDB
+    private lateinit var dao: WeatherDao
 
     @Before
     fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         val context = ApplicationProvider.getApplicationContext<Context>()
         // Create an in-memory Room database for testing
         db = Room.inMemoryDatabaseBuilder(
-            context,
+            ApplicationProvider.getApplicationContext(),
             WeatherDB::class.java
         ).allowMainThreadQueries().build()
 
-        weatherDao = db.GetWeatherDao()
-        localSource = LocalSource(context)
+        dao = db.GetWeatherDao()
+        localSource = LocalSource(dao)
     }
 
     @After
     fun tearDown() {
         db.close()
+        Dispatchers.resetMain()
+       // testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun `test insertLocation inserts location correctly`() = runBlocking {
-        val location = LocationData(0, "Cairo", 30.0, 31.0)
+    fun insertLocation_insertsLocationCorrectly() = runTest {
+        val location = LocationData(1, "Cairo", 30.0, 31.0)
         localSource.insertLocation(location)
 
-        val allLocations = weatherDao.getAllFavouriteLocations().first() // Collect the flow
+        val allLocations = localSource.getAllFavouritePlaces().first() // Collect the flow
 
         assertThat(allLocations.size, `is`(1))
         assertThat(allLocations[0], IsEqual(location))
@@ -62,56 +78,61 @@ class LocalSourceTest{
     }
 
     @Test
-    fun `test deletePlaceFromFav deletes location correctly`() = runBlocking {
-        val location = LocationData(0, "Vienna", 35.0, 34.0)
+    fun deletePlaceFromFav_deletesLocationCorrectly() = runTest {
+        val location = LocationData(1, "Vienna", 35.0, 34.0)
         localSource.insertLocation(location)
         localSource.deletePlaceFromFav(location)
 
-        val allLocations = weatherDao.getAllFavouriteLocations().first()
+        val allLocations = localSource.getAllFavouritePlaces().first()
         assertEquals(0, allLocations.size)
     }
 
     @Test
-    fun `test getAllFavouritePlaces returns flow of favourite locations`() = runBlocking {
-        val location = LocationData(0, "Vienna", 35.0, 34.0)
-        localSource.insertLocation(location)
+    fun getAllFavouritePlaces_flowOfFavouriteLocations() = runTest {
+        val location = LocationData(1, "Vienna", 35.0, 34.0)
+        val location1 = LocationData(2, "Cairo", 30.0, 31.0)
 
-        val flow = localSource.getAllFavouritePlaces()
-        flow.collect { allLocations ->
-            assertEquals(1, allLocations.size)
-            assertEquals(location, allLocations[0])
-        }
+        localSource.insertLocation(location)
+        localSource.insertLocation(location1)
+
+
+        val allLocations = localSource.getAllFavouritePlaces().first()
+        assertEquals(2, allLocations.size)
+        assertThat(allLocations[0], `is`(location))
+        assertThat(allLocations[1], `is`(location1))
     }
 
     @Test
-    fun `test insertAlarm inserts alarm correctly`() = runBlocking {
+    fun insertAlarm_insertsAlarmCorrectly() = runTest {
         val alarm = AlarmEntity(time = System.currentTimeMillis(), kind = "Test Alarm")
         localSource.insertAlarm(alarm)
 
-        val allAlarms = weatherDao.getAllAlarms().first() // Collect the flow
+        val allAlarms = localSource.getAllAlarms().first() // Collect the flow
         assertEquals(1, allAlarms.size)
         assertEquals(alarm, allAlarms[0])
     }
 
     @Test
-    fun `test deleteAlarm deletes alarm correctly`() = runBlocking {
+    fun deleteAlarm_deletesAlarmCorrectly() = runTest {
         val alarm = AlarmEntity(time = System.currentTimeMillis(), kind = "Test Alarm")
         localSource.insertAlarm(alarm)
         localSource.deleteAlarm(alarm)
 
-        val allAlarms = weatherDao.getAllAlarms().first()
+        val allAlarms =  localSource.getAllAlarms().first()
         assertEquals(0, allAlarms.size)
     }
 
     @Test
-    fun `test getAllAlarms returns flow of alarms`() = runBlocking {
-        val alarm = AlarmEntity(time = System.currentTimeMillis(), kind = "Test Alarm")
-        localSource.insertAlarm(alarm)
+    fun getAllAlarms_flowOfAlarms() = runTest {
+        val alarm1 = AlarmEntity(time = System.currentTimeMillis(), kind = "Alarm 1")
+        val alarm2 = AlarmEntity(time = System.currentTimeMillis() + 1000, kind = "Alarm 2")
 
-        val flow = localSource.getAllAlarms()
-        flow.collect { allAlarms ->
-            assertEquals(1, allAlarms.size)
-            assertEquals(alarm, allAlarms[0])
-        }
+        localSource.insertAlarm(alarm1)
+        localSource.insertAlarm(alarm2)
+
+        val allAlarms = localSource.getAllAlarms().first()
+        assertEquals(2, allAlarms.size)
+        assertThat(allAlarms.contains(alarm1), `is`(true))
+        assertThat(allAlarms.contains(alarm2), `is`(true))
     }
 }

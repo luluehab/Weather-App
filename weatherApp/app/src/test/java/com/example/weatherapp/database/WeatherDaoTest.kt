@@ -20,10 +20,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 
-@RunWith(AndroidJUnit4::class)
-@ExperimentalCoroutinesApi
+@Config(sdk = [19])
+@RunWith(RobolectricTestRunner::class)
 class WeatherDaoTest {
 
     @get:Rule
@@ -32,8 +34,8 @@ class WeatherDaoTest {
     private lateinit var weatherDao: WeatherDao
     private lateinit var db: WeatherDB
 
-    private val location1 = LocationData(0, "Cairo", 30.0, 31.0)
-    private val location2 = LocationData(0, "Vienna", 35.0, 34.0)
+    private val location1 = LocationData(id = 1 , city= "Cairo", lat = 30.0, lng = 31.0)
+    private val location2 = LocationData(id = 2 , city ="Vienna", lat = 35.0, lng = 34.0)
     private val alarm = AlarmEntity(time = System.currentTimeMillis(), kind = "Test Alarm")
 
 
@@ -52,15 +54,15 @@ class WeatherDaoTest {
         db.close()
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+
     @Test
     fun insertLocation_insertsLocation() = runTest {
         weatherDao.insertLocation(location1)
 
         val allLocations = weatherDao.getAllFavouriteLocations().first()
         //assertThat(allLocations.size,  notNullValue())
-        //assertThat(allLocations[0], IsEqual(location1))
-        assertTrue(allLocations.contains(location1))
+        assertThat(allLocations[0], IsEqual(location1))
+        //assertTrue(allLocations.contains(location1))
     }
 
     @Test
@@ -82,8 +84,8 @@ class WeatherDaoTest {
 
         val allLocations = weatherDao.getAllFavouriteLocations().first()
         assertThat(allLocations.size, IsEqual(2))
-        assertThat(allLocations.contains(location1), IsEqual(true))
-        assertThat(allLocations.contains(location2), IsEqual(true))
+        assertThat(allLocations[0], IsEqual(location1))
+        assertThat(allLocations[1], IsEqual(location2))
     }
 
     @Test

@@ -15,6 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.database.LocalSource
+import com.example.weatherapp.database.WeatherDB
+import com.example.weatherapp.database.WeatherDao
 import com.example.weatherapp.databinding.FragmentMapSearchBinding
 import com.example.weatherapp.model.LocationData
 import com.example.weatherapp.model.Repo.RepositoryImpl
@@ -43,6 +45,7 @@ class MapSearchFragment : Fragment(){
     private val binding get() = _binding!!
     private lateinit var remoteSource : RemoteSource
     private lateinit var localSource : LocalSource
+    private lateinit var weatherDao: WeatherDao
     private lateinit var repository : RepositoryImpl
     private lateinit var marker: Marker
     private lateinit var currentLocation :LocationData
@@ -64,8 +67,10 @@ class MapSearchFragment : Fragment(){
           _binding = FragmentMapSearchBinding.inflate(inflater, container, false)
 
         Log.i(TAG, "onCreateView fromSearch: ")
+
+        weatherDao =  WeatherDB.getDatabase(requireContext()).GetWeatherDao()
         remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = context?.let { LocalSource(it) }!!
+        localSource = context?.let { LocalSource(weatherDao) }!!
         repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
 
         return binding.root

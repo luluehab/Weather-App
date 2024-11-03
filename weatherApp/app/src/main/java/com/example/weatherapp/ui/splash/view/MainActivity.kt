@@ -48,6 +48,8 @@ import kotlinx.coroutines.launch
 import android.provider.Settings
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import com.example.weatherapp.database.WeatherDB
+import com.example.weatherapp.database.WeatherDao
 import com.example.weatherapp.ui.home.viewModel.HomeViewModel
 import com.example.weatherapp.ui.home.viewModel.HomeViewModelFactory
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModel
@@ -67,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var remoteSource :RemoteSource
     private lateinit var localSource : LocalSource
+    private lateinit var weatherDao: WeatherDao
     private lateinit var repository : RepositoryImpl
 
     private val settingViewModel: SettingViewModel by viewModels {
@@ -81,7 +84,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = LocalSource(this)
+        weatherDao =  WeatherDB.getDatabase(this).GetWeatherDao()
+        localSource = LocalSource(weatherDao)
         repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
 
 

@@ -32,6 +32,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iti.data.model.AlarmEntity
 import com.example.weatherapp.database.LocalSource
+import com.example.weatherapp.database.WeatherDB
+import com.example.weatherapp.database.WeatherDao
 import com.example.weatherapp.databinding.AlertDialogLayoutBinding
 import com.example.weatherapp.databinding.FragmentAlertBinding
 import com.example.weatherapp.model.Repo.RepositoryImpl
@@ -68,6 +70,7 @@ class AlertFragment : Fragment() {
     private lateinit var remoteSource: RemoteSource
     private lateinit var localSource: LocalSource
     private lateinit var repository: RepositoryImpl
+    private lateinit var weatherDao: WeatherDao
     private val settingViewModel: SettingViewModel by viewModels {
         SettingViewModelFactory(requireActivity().application)
     }
@@ -88,7 +91,7 @@ class AlertFragment : Fragment() {
     ): View {
 
         Log.i(TAG, "onCreateView: Alarm Fragment ")
-
+        weatherDao =  WeatherDB.getDatabase(requireContext()).GetWeatherDao()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101)
@@ -98,7 +101,7 @@ class AlertFragment : Fragment() {
         val root: View = binding.root
 
         remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = context?.let { LocalSource(it) }!!
+        localSource = context?.let { LocalSource(weatherDao) }!!
         repository = RepositoryImpl.getRepository(remoteSource, localSource, settingViewModel)
 
         return root

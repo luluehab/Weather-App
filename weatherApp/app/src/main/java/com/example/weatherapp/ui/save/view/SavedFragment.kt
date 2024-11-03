@@ -32,6 +32,8 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.example.downloadworker.Network.NetworkCheck
+import com.example.weatherapp.database.WeatherDB
+import com.example.weatherapp.database.WeatherDao
 import com.example.weatherapp.model.LocationData
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModel
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModelFactory
@@ -44,6 +46,7 @@ class SavedFragment : Fragment() {
     private lateinit var savedAdapter: SavedAdapter
     private lateinit var remoteSource :RemoteSource
     private lateinit var localSource : LocalSource
+    private lateinit var weatherDao: WeatherDao
     private lateinit var repository : RepositoryImpl
     lateinit var location: LocationData
     private  var mediaPlayer: MediaPlayer? = null
@@ -72,8 +75,9 @@ class SavedFragment : Fragment() {
 
         //val root: View = binding.root
 
+        weatherDao =  WeatherDB.getDatabase(requireContext()).GetWeatherDao()
         remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = context?.let { LocalSource(it) }!!
+        localSource = context?.let { LocalSource(weatherDao) }!!
         repository = RepositoryImpl.getRepository(remoteSource, localSource , settingViewModel)
         setUpAdapters()
         binding.btnMaps.setOnClickListener {
