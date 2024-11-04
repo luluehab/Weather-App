@@ -77,6 +77,9 @@
     <string name="location_services_are_required_to_access_the_home_screen_do_you_want_to_enable_them">Location services are required to access the home screen. Do you want to enable them?</string>
     <string name="choose_from_maps">Choose From Maps</string>
     <string name="yes">Yes</string>
+    <string name="tryAgain">try again</string>
+    <string name="noNetwork">No Network</string>
+    <string name="noNetorktryagain">"No Network Available Check Your Connection And Try Again! "</string>
 
 
     <string-array name="countries">

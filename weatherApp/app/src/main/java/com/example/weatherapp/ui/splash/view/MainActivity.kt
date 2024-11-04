@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        Log.i(TAG, "onCreate after : ${findViewById<TextView>(R.id.tv_current_degree).text.toString()}")
+        //Log.i(TAG, "onCreate after : ${findViewById<TextView>(R.id.tv_current_degree).text.toString()}")
     }
 
     override fun attachBaseContext(newBase: Context?) {

@@ -15,9 +15,9 @@ class FakeRepo :Repository {
     private val favoritePlaces = mutableListOf<LocationData>()
     private val alarms = mutableListOf<AlarmEntity>()
 
-    val location = LocationData(0, "Cairo", 30.0, 31.0)
-    val location1 = LocationData(1, "Vienna", 31.0, 32.0)
-    val location2 = LocationData(2, "Roma", 32.0, 33.0)
+    val location = LocationData( "Cairo", 30.0, 31.0)
+    val location1 = LocationData( "Vienna", 31.0, 32.0)
+    val location2 = LocationData( "Roma", 32.0, 33.0)
     override fun fetchCurrentWeather(lat: Double, long: Double): Flow<Weather> {
         TODO("Not yet implemented")
     }

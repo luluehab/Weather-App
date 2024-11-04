@@ -78,6 +78,9 @@
     <string name="location_services_are_required_to_access_the_home_screen_do_you_want_to_enable_them">خدمات الموقع مطلوبة للوصول إلى الشاشة الرئيسية. هل تريد تفعيلها؟</string>
     <string name="choose_from_maps">اختر من الخرائط</string>
     <string name="yes">نعم</string>
+    <string name="tryAgain">حاول مرة أخرى</string>
+    <string name="noNetwork">لا يوجد اتصال</string>
+    <string name="noNetorktryagain">"لا يوجد اتصال متاح. تحقق من اتصالك وحاول مرة أخرى!"</string>
 
     <string-array name="countries">
         <item>أفغانستان</item>

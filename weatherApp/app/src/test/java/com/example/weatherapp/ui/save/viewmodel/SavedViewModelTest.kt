@@ -26,8 +26,8 @@ class SavedViewModelTest {
     lateinit var savedViewModel: SavedViewModel
     lateinit var repository: FakeRepo
 
-    val location = LocationData(0, "Cairo", 30.0, 31.0)
-    val location2 = LocationData(2, "Roma", 32.0, 33.0)
+    val location = LocationData( "Cairo", 30.0, 31.0)
+    val location2 = LocationData( "Roma", 32.0, 33.0)
 
     @Before
     fun setUp() {

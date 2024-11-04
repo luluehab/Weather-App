@@ -9,7 +9,7 @@ import com.example.iti.data.model.WeatherEntity
 import com.example.weatherapp.model.LocationData
 
 
-@Database(entities = arrayOf(WeatherEntity::class , LocationData::class , AlarmEntity::class), version = 3)
+@Database(entities = arrayOf(WeatherEntity::class , LocationData::class , AlarmEntity::class), version = 4)
 abstract class WeatherDB : RoomDatabase(){
 
     abstract fun GetWeatherDao(): WeatherDao

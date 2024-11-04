@@ -19,7 +19,7 @@ class SavedDiffUtil : DiffUtil.ItemCallback<LocationData>()
 {
     override fun areItemsTheSame(oldItem: LocationData, newItem: LocationData): Boolean {
         // return oldItem.id == newItem.id
-        return oldItem.id == newItem.id
+        return oldItem.city == newItem.city
     }
 
     @SuppressLint("DiffUtilEquals")

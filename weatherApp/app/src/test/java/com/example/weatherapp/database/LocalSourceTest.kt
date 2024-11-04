@@ -66,7 +66,7 @@ class LocalSourceTest{
 
     @Test
     fun insertLocation_insertsLocationCorrectly() = runTest {
-        val location = LocationData(1, "Cairo", 30.0, 31.0)
+        val location = LocationData( "Cairo", 30.0, 31.0)
         localSource.insertLocation(location)
 
         val allLocations = localSource.getAllFavouritePlaces().first() // Collect the flow
@@ -79,7 +79,7 @@ class LocalSourceTest{
 
     @Test
     fun deletePlaceFromFav_deletesLocationCorrectly() = runTest {
-        val location = LocationData(1, "Vienna", 35.0, 34.0)
+        val location = LocationData( "Vienna", 35.0, 34.0)
         localSource.insertLocation(location)
         localSource.deletePlaceFromFav(location)
 
@@ -89,8 +89,8 @@ class LocalSourceTest{
 
     @Test
     fun getAllFavouritePlaces_flowOfFavouriteLocations() = runTest {
-        val location = LocationData(1, "Vienna", 35.0, 34.0)
-        val location1 = LocationData(2, "Cairo", 30.0, 31.0)
+        val location = LocationData( "Vienna", 35.0, 34.0)
+        val location1 = LocationData( "Cairo", 30.0, 31.0)
 
         localSource.insertLocation(location)
         localSource.insertLocation(location1)

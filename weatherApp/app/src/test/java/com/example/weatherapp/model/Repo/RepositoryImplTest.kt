@@ -25,8 +25,8 @@ class RepositoryImplTest{
     private lateinit var repository: RepositoryImpl
 
 
-    val location1 = LocationData(0,"egypt" , 30.0 , 31.0)
-    val location2 = LocationData(0,"veinna" , 35.0 , 34.0)
+    val location1 = LocationData("egypt" , 30.0 , 31.0)
+    val location2 = LocationData("veinna" , 35.0 , 34.0)
     //private val alarm1 = AlarmEntity( 07.00, true)
     //private val alarm2 = AlarmEntity( 19.00, false)
     val locations = mutableListOf(
@@ -58,7 +58,7 @@ class RepositoryImplTest{
     // Local
     @Test
     fun insertPlaceToFav_addsLocation() = runTest {
-        val newLocation = LocationData(0, "New Location", 25.0, 30.0)
+        val newLocation = LocationData( "New Location", 25.0, 30.0)
         repository.insertPlaceToFav(newLocation)
 
         val allLocations = repository.getAllFavouritePlaces().first()

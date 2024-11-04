@@ -3,6 +3,7 @@ package com.example.weatherapp.ui.home.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.downloadworker.Network.NetworkCheck
 import com.example.iti.data.model.DailyForecastElement
 import com.example.iti.data.model.Hourly
 import com.example.iti.data.model.Weather
@@ -33,7 +37,7 @@ import com.example.weatherapp.ui.home.viewModel.HomeViewModel
 import com.example.weatherapp.ui.home.viewModel.HomeViewModelFactory
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModel
 import com.example.weatherapp.ui.setting.viewmodel.SettingViewModelFactory
-import com.example.weatherapp.utils.Constants
+import com.example.weatherapp.ui.splash.view.SplashActivity
 import com.example.weatherapp.utils.Constants.METER_PER_SECOND
 import com.example.weatherapp.utils.Constants.TEMPERATURE_FORMAT
 import com.example.weatherapp.utils.Helpers.convertTemperature
@@ -52,6 +56,10 @@ class HomeFragment : Fragment() {
     private val TAG: String = "Home Fragment"
     private var _binding: FragmentHomeBinding? = null
 
+//    val fragmentTransaction = parentFragmentManager.beginTransaction()
+
+
+    private lateinit var dialog: AlertDialog
     private lateinit var dailyAdapter: DailyAdapter
     private lateinit var hourlyAdapter: HourlyAdapter
     private lateinit var remoteSource :RemoteSource
@@ -94,17 +102,68 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        weatherDao =  WeatherDB.getDatabase(requireContext()).GetWeatherDao()
-        remoteSource = RemoteSource(APIClient.getApiService())
-        localSource = context?.let { LocalSource(weatherDao) }!!
-        repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
 
-        setUpAdapters()
-        getLagLongCity()
-        fetchDataBasedOnLatAndLong()
-        setUpCollector()
+            if (!NetworkCheck.isNetworkAvailable(requireContext())) {
+
+                showNetworkErrorDialog()
+            }else{
+                weatherDao =  WeatherDB.getDatabase(requireContext()).GetWeatherDao()
+                remoteSource = RemoteSource(APIClient.getApiService())
+                localSource = context?.let { LocalSource(weatherDao) }!!
+                repository = RepositoryImpl.getRepository(remoteSource , localSource , settingViewModel)
+
+                setUpAdapters()
+                getLagLongCity()
+                fetchDataBasedOnLatAndLong()
+                setUpCollector()
+            }
+
+
+
       //  Log.i(TAG, "onCreateView: $temp")
         return root
+    }
+
+    private fun showNetworkErrorDialog() {
+         dialog = AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.noNetwork))
+            .setMessage(getString(R.string.noNetorktryagain))
+            .setPositiveButton(getString(R.string.tryAgain)) { _, _ ->
+                // re Check Network
+               // findNavController().navigate(R.id.action_savedFragment_to_homeFragment)
+                val intent = Intent(requireActivity(), SplashActivity::class.java)
+                startActivity(intent)
+                dialog.dismiss()
+
+            }
+            .setNegativeButton(R.string.cancel){ _, _ ->
+                // User canceled, Finish The Application
+                dialog.dismiss()
+                //requireActivity().finish()
+                requireActivity().finishAffinity()
+
+            }
+            .create()
+
+        dialog.setOnShowListener {
+            val buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            val buttonCancel = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+            // Change text color
+            buttonOk.setTextColor(
+                resources.getColor(
+                    R.color.lulu,
+                    null
+                )
+            ) // Change to your desired color
+            buttonCancel.setTextColor(
+                resources.getColor(
+                    R.color.lulu,
+                    null
+                )
+            ) // Change to your desired color
+        }
+        dialog.show()
     }
 
     private fun getLagLongCity() {
@@ -224,12 +283,12 @@ class HomeFragment : Fragment() {
         binding.tvCurrentDegree.text =
             String.format(TEMPERATURE_FORMAT, currentTemp, unit?.let { getUnitSymbol(it) })
 
-        val minTemp = unit?.let { convertTemperature(weather.main.temp_min, it) }
+       /* val minTemp = unit?.let { convertTemperature(weather.main.temp_min, it) }
         binding.tvTempMin.text = String.format(TEMPERATURE_FORMAT, minTemp,
             unit?.let { getUnitSymbol(it) })
         val maxTemp = unit?.let { convertTemperature(weather.main.temp_max, it) }
         binding.tvTempMax.text = String.format(TEMPERATURE_FORMAT, maxTemp,
-            unit?.let { getUnitSymbol(it) })
+            unit?.let { getUnitSymbol(it) })*/
 
 
         Log.i(TAG, "updateUi: $countryName,$adminArea")

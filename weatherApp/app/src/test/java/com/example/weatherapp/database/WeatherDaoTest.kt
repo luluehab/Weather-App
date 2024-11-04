@@ -34,8 +34,8 @@ class WeatherDaoTest {
     private lateinit var weatherDao: WeatherDao
     private lateinit var db: WeatherDB
 
-    private val location1 = LocationData(id = 1 , city= "Cairo", lat = 30.0, lng = 31.0)
-    private val location2 = LocationData(id = 2 , city ="Vienna", lat = 35.0, lng = 34.0)
+    private val location1 = LocationData( city= "Cairo", lat = 30.0, lng = 31.0)
+    private val location2 = LocationData( city ="Vienna", lat = 35.0, lng = 34.0)
     private val alarm = AlarmEntity(time = System.currentTimeMillis(), kind = "Test Alarm")
 
 
